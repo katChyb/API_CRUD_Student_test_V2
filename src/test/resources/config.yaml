@@ -1,0 +1,8 @@
+urlData:
+  baseURL: https://thetestingworldapi.com
+  studentsDetailsEndpoint: /api/studentsDetails/
+testData:
+  studentFirstName: Gandalf
+  studentMiddleName: GreyMan
+  studentLastName: Grey
+  studentDateOfBirth: 10/12/1035
