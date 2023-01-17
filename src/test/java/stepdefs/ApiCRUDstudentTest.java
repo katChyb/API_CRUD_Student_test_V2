@@ -61,7 +61,7 @@ public class ApiCRUDstudentTest {
                         .as(StudentResponse.class);
 
 
-        Assert.assertEquals(StudentResponse.class.getField("first_name"), System.getProperty("studentFirstName"));
+        Assert.assertEquals(studentResponse.getData().getFirst_name(), System.getProperty("studentFirstName"));
         log.info(">>>>>>>> get information about new student <<<<<<<<<");
     }
 
