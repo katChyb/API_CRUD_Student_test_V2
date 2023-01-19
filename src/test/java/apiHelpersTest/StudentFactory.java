@@ -14,15 +14,21 @@ public class StudentFactory {
 
     static Faker usFaker = new Faker(new Locale("en-US"));
 
-    public static StudentRequestBody createRandomStudent(){
+    public static Student createRandomStudent(){
 
        log.info("<<<<<<<<<<<<<<< new random Student  >>>>>>>>>>>>>>> ");
-        return new StudentRequestBody(
-                usFaker.name().firstName(),
-                usFaker.name().name(),
-                usFaker.name().lastName(),
-                usFaker.date().birthday(18,65)
-        );
+//        return new StudentRequestBody(
+//                usFaker.name().firstName(),
+//                usFaker.name().name(),
+//                usFaker.name().lastName(),
+//                usFaker.date().birthday(18,65)
+ //       );
+     return   Student.builder()
+                .first_name(usFaker.name().firstName())
+                .middle_name(usFaker.name().firstName())
+                .last_name(usFaker.name().lastName())
+                .date_of_birth(String.valueOf(usFaker.date().birthday()))
+                .build();
     }
 
     public static Student definedStudent(){
@@ -36,6 +42,6 @@ public class StudentFactory {
 
     public static void changeStudentLastName(StudentResponse item) {
         log.info("<<<<<<<<<< Change Last Name for Student >>>>>>>>>");
-        item.getData().setLast_name(System.getProperty("studentMiddleName"));
+        item.getData().setLast_name(usFaker.name().name());
     }
 }
