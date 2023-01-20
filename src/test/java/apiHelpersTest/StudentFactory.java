@@ -17,12 +17,7 @@ public class StudentFactory {
     public static Student createRandomStudent(){
 
        log.info("<<<<<<<<<<<<<<< new random Student  >>>>>>>>>>>>>>> ");
-//        return new StudentRequestBody(
-//                usFaker.name().firstName(),
-//                usFaker.name().name(),
-//                usFaker.name().lastName(),
-//                usFaker.date().birthday(18,65)
- //       );
+
      return   Student.builder()
                 .first_name(usFaker.name().firstName())
                 .middle_name(usFaker.name().firstName())
