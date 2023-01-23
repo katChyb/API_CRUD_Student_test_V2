@@ -26,25 +26,23 @@ public class ApiCRUDstudentTest {
     private String NewLastName;
 
 
-
-
     @Given("I create new Student")
     public void i_create_new_student() {
 
         newStudent = StudentFactory.createRandomStudent();
 
         id =
-                        given()
-                                .spec(specifications.setupRequestSpecification())
-                                .basePath(STUDENT_DETAILS_ENDPOINT)
-                                .body(newStudent).
-                                when()
-                                .post().
-                                then()
-                                .spec(specifications.setupResponseSpecification())
-                                .statusCode(201)
-                                .extract()
-                                .path("id");
+                given()
+                        .spec(specifications.setupRequestSpecification())
+                        .basePath(STUDENT_DETAILS_ENDPOINT)
+                        .body(newStudent).
+                        when()
+                        .post().
+                        then()
+                        .spec(specifications.setupResponseSpecification())
+                        .statusCode(201)
+                        .extract()
+                        .path("id");
 
         log.info(">>>>>>>> create new student <<<<<<<<<");
     }
@@ -54,16 +52,16 @@ public class ApiCRUDstudentTest {
     public void GETnewStudentDetails() {
 
         studentResponse =
-                        given()
-                                .spec(specifications.setupRequestSpecification())
-                                .basePath(STUDENT_DETAILS_ENDPOINT + id).
-                                when()
-                                .get().
-                                then()
-                                .spec(specifications.setupResponseSpecification())
-                                .statusCode(200)
-                                .extract()
-                                .as(StudentResponse.class);
+                given()
+                        .spec(specifications.setupRequestSpecification())
+                        .basePath(STUDENT_DETAILS_ENDPOINT + id).
+                        when()
+                        .get().
+                        then()
+                        .spec(specifications.setupResponseSpecification())
+                        .statusCode(200)
+                        .extract()
+                        .as(StudentResponse.class);
 
 
         Assert.assertEquals(studentResponse.getData().getFirst_name(), newStudent.getFirst_name());
@@ -74,50 +72,50 @@ public class ApiCRUDstudentTest {
     @When("I update this student and change his last name")
     public void iUpdateThisStudentAndChangeHisLastName() {
 
-      StudentFactory.changeStudentLastName(studentResponse);
+        StudentFactory.changeStudentLastName(studentResponse);
 
         log.info(">>>>>>>> changing student last name<<<<<<<<<");
-                        given()
-                                .spec(specifications.setupRequestSpecification())
-                                .basePath(STUDENT_DETAILS_ENDPOINT + id)
-                                .body(studentResponse.getData()).
-                                when()
-                                .put().
-                                then()
-                                .spec(specifications.setupResponseSpecification())
-                                .statusCode(200);
+        given()
+                .spec(specifications.setupRequestSpecification())
+                .basePath(STUDENT_DETAILS_ENDPOINT + id)
+                .body(studentResponse.getData()).
+                when()
+                .put().
+                then()
+                .spec(specifications.setupResponseSpecification())
+                .statusCode(200);
     }
 
     @Then("student last name is updated in the system")
     public void studentLastNameIsUpdatedInTheSystem() {
-                  NewLastName=
+        NewLastName =
 
-                        given()
-                                .spec(specifications.setupRequestSpecification())
-                                .basePath(STUDENT_DETAILS_ENDPOINT + id).
-                                when()
-                                .get().
-                                then()
-                                .spec(specifications.setupResponseSpecification())
-                                .statusCode(200)
-                                .extract()
-                                .path("data.last_name");
+                given()
+                        .spec(specifications.setupRequestSpecification())
+                        .basePath(STUDENT_DETAILS_ENDPOINT + id).
+                        when()
+                        .get().
+                        then()
+                        .spec(specifications.setupResponseSpecification())
+                        .statusCode(200)
+                        .extract()
+                        .path("data.last_name");
 
 
         Assert.assertEquals(studentResponse.getData().getLast_name(), NewLastName);
-        log.info(">>>>>>>> get information about updated last name <<<<<<<<<" );
+        log.info(">>>>>>>> get information about updated last name <<<<<<<<<");
     }
 
     @When("I delete this newly created student from the system")
     public void iDeleteThisNewlyCreatedStudentFromTheSystem() {
-                        given()
-                                .spec(specifications.setupRequestSpecification())
-                                .basePath(STUDENT_DETAILS_ENDPOINT + id).
-                                when()
-                                .delete().
-                                then()
-                                .statusCode(200)
-                                .spec(specifications.setupResponseSpecification());
+        given()
+                .spec(specifications.setupRequestSpecification())
+                .basePath(STUDENT_DETAILS_ENDPOINT + id).
+                when()
+                .delete().
+                then()
+                .statusCode(200)
+                .spec(specifications.setupResponseSpecification());
 
         log.info(">>>>>>>> delete new student <<<<<<<<<");
     }
@@ -125,16 +123,17 @@ public class ApiCRUDstudentTest {
     @Then("this newly created student does not exist in the system")
     public void thisNewlyCreatedStudentDoesNotExistInTheSystem() {
 
-        Response  response = null;
-                          given()
-                            .spec(specifications.setupRequestSpecification())
-                            .basePath(STUDENT_DETAILS_ENDPOINT + id).
-                            when()
-                            .get().
-                            then()
-                            .statusCode(404);
+        Response response =
+                given()
+                        .spec(specifications.setupRequestSpecification())
+                        .basePath(STUDENT_DETAILS_ENDPOINT + id).
+                        when()
+                        .get();
 
-                            Assert.assertEquals(response.statusCode(), 404);
+
+
+        Assert.assertEquals(response.statusCode(), 200);
+        Assert.assertEquals(response.path("msg"), System.getProperty("deletedResponseMessage"));
 
         log.info(">>>>>>>> confirmation that new student was deleted <<<<<<<<<");
 
